@@ -1,0 +1,279 @@
+@import url('https://fonts.googleapis.com/css?family=Ubuntu+Condensed');
+.container {
+    width: 100%;
+}
+
+#reg {
+    text-align: center;
+    padding-top: 50px;
+    margin: auto;
+}
+
+#log {
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px 18px;
+    background-color: rgba(209, 139, 58, 0.918);
+    font-family: 'Ubuntu Condensed', sans-serif;
+}
+
+#log:hover {
+    background-color: rgba(97, 64, 26, 0.918);
+    font-family: 'Ubuntu Condensed', sans-serif;
+}
+
+.frameform {
+    width: 100%;
+    background: rgba(255, 245, 215, .5);
+}
+
+.frameforms {
+    width: auto;
+    padding: 20px;
+    font-size: 20px;
+    font-family: 'Ubuntu Condensed', sans-serif;
+    text-align: center;
+    margin-left: 200px;
+    margin-right: 200px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background: white;
+    opacity: 0.3;
+}
+
+.content {
+    text-decoration: none;
+    font-size: 20px;
+    font-family: 'Ubuntu Condensed', sans-serif;
+    list-style: none;
+    margin: 0 auto;
+    text-align: center;
+    background: white;
+    opacity: 0.9;
+}
+
+.infobook {
+    width: auto;
+    padding: 20px;
+    font-size: 20px;
+    font-family: 'Ubuntu Condensed', sans-serif;
+    list-style: none;
+    text-align: center;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background: white;
+    opacity: 0.8;
+}
+
+.info {
+    width: auto;
+    padding: 20px;
+    font-size: 20px;
+    font-family: 'Ubuntu Condensed', sans-serif;
+    list-style: none;
+    text-align: center;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background: #feb386;
+    opacity: 0.8;
+}
+
+.content a {
+    text-decoration: none;
+    font-family: 'Ubuntu Condensed', sans-serif;
+    position: relative;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 20px;
+    text-transform: uppercase;
+    display: inline-block;
+}
+
+.content a,
+.content a:visited {
+    color: #9d999d;
+}
+
+.content a.current,
+.content a:hover {
+    color: #feb386;
+}
+
+.frame {
+    margin-top: 150px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 500px;
+    height: 300px;
+    background: rgba(255, 245, 215, .5);
+}
+
+#logo {
+    padding-top: 40px;
+    width: 600px;
+    margin: 0 auto;
+}
+
+#tittles {
+    margin: 0 auto;
+}
+
+body {
+    background: url(fire.jpg) no-repeat center center fixed;
+    background-size: cover;
+    background-color: #606060;
+    margin: 200 px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+form {
+    position: relative;
+    padding-top: 40px;
+    padding-bottom: 20px;
+    width: 300px;
+    margin: 0 auto;
+}
+
+input {
+    font-family: 'Ubuntu Condensed', sans-serif;
+    width: 100%;
+    height: 42px;
+    margin-top: 20px;
+    padding-left: 15px;
+    padding-top: 10px;
+    border: 2px solid #606060;
+    outline: none;
+    background: #F9F0DA;
+    color: black;
+}
+
+button {
+    position: relative;
+    top: 10px;
+    width: 100%;
+    height: 42px;
+    padding-left: 10px;
+    background: #606060;
+    cursor: pointer;
+}
+
+button:before {
+    font-family: FontAwesome;
+    font-size: 16px;
+    color: #F9F0DA;
+}
+
+.menu-main {
+    list-style: none;
+    margin: 40px 0 5px;
+    padding: 25px 0 5px;
+    text-align: center;
+    background: white;
+    opacity: 0.9;
+}
+
+.menu-main li {
+    display: inline-block;
+}
+
+.menu-main li:after {
+    content: "|";
+    color: #606060;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.menu-main li:last-child:after {
+    content: none;
+}
+
+.menu-main a {
+    text-decoration: none;
+    font-family: 'Ubuntu Condensed', sans-serif;
+    position: relative;
+    padding-bottom: 20px;
+    margin: 0 34px 0 30px;
+    font-size: 17px;
+    text-transform: uppercase;
+    display: inline-block;
+}
+
+.menu-main a,
+.menu-main a:visited {
+    color: #9d999d;
+}
+
+.menu-main a.current,
+.menu-main a:hover {
+    color: #feb386;
+}
+
+table {
+    font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+    font-size: 14px;
+    background: white;
+    max-width: 70%;
+    width: 70%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+th {
+    font-weight: normal;
+    color: #039;
+    padding: 10px 15px;
+}
+
+caption {
+    font-weight: normal;
+    background: white;
+    color: #039;
+    padding: 10px 15px;
+}
+
+td {
+    color: #669;
+    border-top: 1px solid #e8edff;
+    padding: 10px 15px;
+}
+
+tr:hover td {
+    background: #e8edff;
+}
+
+.search button {
+    top: 50px;
+}
+
+#inline form {
+    width: 100%;
+}
+
+#inline button {
+    border: none;
+    outline: none;
+    width: 300px;
+    margin-bottom: 20px;
+    padding: 10px 18px;
+    background-color: rgba(209, 139, 58, 0.918);
+    font-family: 'Ubuntu Condensed', sans-serif;
+}
+
+#inline button:hover {
+    background-color: rgba(97, 64, 26, 0.918);
+    font-family: 'Ubuntu Condensed', sans-serif;
+}
+
+#inline input {
+    text-align: center;
+    padding: 0;
+    width: 300px;
+    margin: 0;
+}
