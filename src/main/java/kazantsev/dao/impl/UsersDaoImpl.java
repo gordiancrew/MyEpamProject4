@@ -51,14 +51,15 @@ public class UsersDaoImpl implements UsersDao {
 
     @Override
     public String save(User user) throws SQLException {
-        String sql = "insert users (name,surename,phone,role,login,password) values (?,?,?,?,?,?)";
+        String sql = "insert users (name,surename,phone,role,address, login,password) values (?,?,?,?,?,?,?)";
         PreparedStatement statement = conn.prepareStatement(sql);
         statement.setString(1, user.getName());
         statement.setString(2, user.getSureName());
         statement.setInt(3, user.getPhone());
         statement.setString(4, String.valueOf(user.getRole()));
-        statement.setString(5, user.getLogin());
-        statement.setString(6, user.getPassword());
+        statement.setString(5,user.getAddress());
+        statement.setString(6, user.getLogin());
+        statement.setString(7, user.getPassword());
         statement.executeUpdate();
         return "Пользователь " + user.getName() + " " + user.getSureName() + " добавлен!";
 
@@ -131,10 +132,11 @@ public class UsersDaoImpl implements UsersDao {
         String sureName = rs.getString("surename");
         int phone = rs.getInt("phone");
         UserRole role = UserRole.valueOf(rs.getString("role"));
+        String address=rs.getString("address");
         String login = rs.getString("login");
         String password = rs.getString("password");
         int id = rs.getInt("id");
-        User user=new User(name, sureName, role, phone, login, password);
+        User user=new User(name, sureName, role, phone, address, login, password);
         user.setId(id);
         return user;
     }

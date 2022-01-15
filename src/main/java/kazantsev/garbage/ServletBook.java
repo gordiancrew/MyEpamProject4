@@ -1,4 +1,4 @@
-package kazantsev.controller;
+package kazantsev.garbage;
 
 import kazantsev.dao.impl.BooksDaoImpl;
 import kazantsev.entity.Book;
@@ -14,12 +14,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet(urlPatterns = {"/book/*"})
+@WebServlet(urlPatterns = {"/booka/*"})
 public class ServletBook extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String bookId = req.getParameter("id");
+        System.out.println(req.getRequestURI());
         if (bookId != null) {
             int id = Integer.parseInt(bookId);
             BooksDaoImpl booksDao = new BooksDaoImpl();
@@ -31,6 +32,7 @@ public class ServletBook extends HttpServlet {
             }
             req.getSession().setAttribute("booktype", "view");
             req.getSession().setAttribute("book", book);
+            req.getSession().setAttribute("pagetype", "book");
             getServletContext().getRequestDispatcher("/book.jsp").forward(req, resp);
         }
     }
@@ -51,6 +53,7 @@ public class ServletBook extends HttpServlet {
                 e.printStackTrace();
             }
             req.getSession().setAttribute("booktype", "result");
+            req.getSession().setAttribute("pagetype", "book");
            req.getSession().setAttribute("resultbook", result);
             getServletContext().getRequestDispatcher("/book.jsp").forward(req, resp);
         }

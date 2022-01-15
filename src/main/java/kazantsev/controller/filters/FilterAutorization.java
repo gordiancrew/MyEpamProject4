@@ -1,4 +1,4 @@
-package kazantsev.controller;
+package kazantsev.controller.filters;
 
 import kazantsev.dao.impl.UsersDaoImpl;
 import kazantsev.entity.User;
@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 @WebFilter("/book")
-public class MyFilter implements Filter {
+public class FilterAutorization implements Filter {
 
     private FilterConfig filterConfig;
 
@@ -45,12 +45,13 @@ public class MyFilter implements Filter {
         } else if ( user != null&& BCrypt.checkpw(password,user.getPassword())) {
             req.getSession().setAttribute("user", user);
             ServletContext ctx = filterConfig.getServletContext();
-            RequestDispatcher dispatcher = ctx.getRequestDispatcher("/index.jsp");
+            RequestDispatcher dispatcher = ctx.getRequestDispatcher("/jspfiles/index.jsp");
             dispatcher.forward(request, response);
             filterChain.doFilter(request, response);
         } else {
             ServletContext ctx = filterConfig.getServletContext();
-            RequestDispatcher dispatcher = ctx.getRequestDispatcher("/login.jsp");
+            req.getSession().setAttribute("pagetype", "login");
+            RequestDispatcher dispatcher = ctx.getRequestDispatcher("/jspfiles/books.jsp");
             dispatcher.forward(request, response);
             return;
         }

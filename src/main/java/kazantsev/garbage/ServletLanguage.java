@@ -1,4 +1,4 @@
-package kazantsev.controller;
+package kazantsev.garbage;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -7,17 +7,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/language")
+@WebServlet("/languagea")
 public class ServletLanguage extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        req.getSession().setAttribute("user", null);
-        getServletContext().getRequestDispatcher("/jspfiles/language.jsp").forward(req, resp);
+       req.getSession().setAttribute("pagetype", "language");
+        getServletContext().getRequestDispatcher("/jspfiles/books.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
        String lang=req.getParameter("lang");
         req.getSession().setAttribute("language", lang);
-        getServletContext().getRequestDispatcher("/jspfiles/index.jsp").forward(req, resp);
+        req.getSession().setAttribute("pagetype", "language");
+        getServletContext().getRequestDispatcher("/jspfiles/books.jsp").forward(req, resp);
     }
 }

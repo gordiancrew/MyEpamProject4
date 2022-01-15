@@ -1,4 +1,4 @@
-package kazantsev.controller;
+package kazantsev.model.actions.actionsimpl;
 
 import kazantsev.dao.BooksDao;
 import kazantsev.dao.OperationsDao;
@@ -6,26 +6,26 @@ import kazantsev.dao.impl.BooksDaoImpl;
 import kazantsev.dao.impl.OperationsDaoImpl;
 import kazantsev.entity.Book;
 import kazantsev.entity.Operation;
+import kazantsev.model.actions.Action;
 import kazantsev.service.Service;
 import kazantsev.service.ServiceImpl;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet("/bookreturn/*")
-public class ServletBookReturn extends HttpServlet {
+public class ActionBookReturn  implements Action {
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void executeGet(ServletContext servletContext, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String idOperationString = req.getParameter("id");
         int idOperation = Integer.parseInt(idOperationString);
         BooksDao booksDao = new BooksDaoImpl();
         OperationsDao operationDao = new OperationsDaoImpl();
         Operation operation = null;
+
         try {
             operation = operationDao.getById(idOperation);
         } catch (SQLException e) {
@@ -37,14 +37,15 @@ public class ServletBookReturn extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        req.getSession().setAttribute("pagetype", "book");
         req.getSession().setAttribute("booktype", "returnview");
         req.getSession().setAttribute("book", book);
         req.getSession().setAttribute("operation", operation);
-        getServletContext().getRequestDispatcher("/book.jsp").forward(req, resp);
+        servletContext.getRequestDispatcher("/jspfiles/books.jsp").forward(req, resp);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void executePost(ServletContext servletContext, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String idOperationString = req.getParameter("idoperation");
         String result = " no";
         Service service = new ServiceImpl();
@@ -54,8 +55,9 @@ public class ServletBookReturn extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        req.getSession().setAttribute("pagetype", "book");
         req.getSession().setAttribute("booktype", "result");
         req.getSession().setAttribute("resultbook", result);
-        getServletContext().getRequestDispatcher("/book.jsp").forward(req, resp);
+        servletContext.getRequestDispatcher("/jspfiles/books.jsp").forward(req, resp);
     }
 }

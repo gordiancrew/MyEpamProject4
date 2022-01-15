@@ -32,10 +32,10 @@
   </ul>
 
 
-   <c:if test="${forminfo!=NULL}">
+  <c:if test="${forminfo!=NULL}">
      <div class= "info">
          <h2>${forminfo}</h2>
-        </div>
+     </div>
   </c:if>
 
   <div class="frameform">

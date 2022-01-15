@@ -13,6 +13,7 @@ public interface Service {
     String getBook(int idBook, int idAuthor) throws SQLException;
     List<Operation> getActiveOperations(int idRiader) throws SQLException;
     String returnBook(int idOperation) throws SQLException;
-    User addUser(String name, String sureName, int phone,  String login, String password) throws SQLException;
+    User addUser(String name, String sureName, int phone,String address,  String login, String password) throws SQLException;
     User getUserByLogin(String login) throws SQLException;
+    String deleteBook(int idBook) throws SQLException;
 }

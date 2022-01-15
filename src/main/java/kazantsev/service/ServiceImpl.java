@@ -64,9 +64,9 @@ public class ServiceImpl implements Service {
     }
 
     @Override
-    public User addUser(String name, String sureName, int phone, String login, String password) throws SQLException {
+    public User addUser(String name, String sureName, int phone, String address, String login, String password) throws SQLException {
 
-            usersDao.save(new User(name, sureName, UserRole.READER, phone, login, password));
+            usersDao.save(new User(name, sureName, UserRole.READER, phone, address, login, password));
             return usersDao.getUserByLogin(login);
 
     }
@@ -74,6 +74,15 @@ public class ServiceImpl implements Service {
     @Override
     public User getUserByLogin(String login) throws SQLException {
        return usersDao.getUserByLogin(login);
+    }
+
+    @Override
+    public String deleteBook(int idBook) throws SQLException {
+        if(booksDao.getById(idBook)!=null) {
+            booksDao.deleteById(idBook);
+            return "ok";
+        }
+        return "no";
     }
 
 

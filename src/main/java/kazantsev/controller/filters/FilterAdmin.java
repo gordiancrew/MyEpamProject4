@@ -1,4 +1,4 @@
-package kazantsev.controller;
+package kazantsev.controller.filters;
 
 import kazantsev.dao.impl.UsersDaoImpl;
 import kazantsev.entity.User;

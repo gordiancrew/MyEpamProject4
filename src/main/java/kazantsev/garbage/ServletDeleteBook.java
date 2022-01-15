@@ -1,4 +1,4 @@
-package kazantsev.controller;
+package kazantsev.garbage;
 
 import kazantsev.dao.impl.DaoBooks;
 
@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet("/deletebook")
+@WebServlet("/deletebooka")
 public class ServletDeleteBook extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

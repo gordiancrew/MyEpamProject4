@@ -6,17 +6,23 @@ public class User {
     private String sureName;
     private int phone;
     private UserRole role;
+    private String address;
     private String login;
     private String password;
 
-    public User( String name, String sureName, UserRole role, int phone,String login, String password) {
+    public User( String name, String sureName, UserRole role, int phone,String address, String login, String password) {
 
         this.name = name;
         this.sureName = sureName;
         this.role = role;
         this.phone = phone;
+        this.address=address;
         this.login=login;
         this.password=password;
+    }
+
+    public String getAddress() {
+        return address;
     }
 
     public String getLogin() {

@@ -1,6 +1,9 @@
-package kazantsev.controller;
+package kazantsev.garbage;
 
 import kazantsev.entity.Book;
+import kazantsev.model.actions.Action;
+import kazantsev.model.factory.ActionFactiryImpl;
+import kazantsev.model.factory.ActionFactory;
 import kazantsev.service.Service;
 import kazantsev.service.ServiceImpl;
 
@@ -15,14 +18,22 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(urlPatterns = {"/books"})
+@WebServlet(urlPatterns = {"/booksa"})
 public class ServletBooks extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println(req.getRequestURI());
+        ActionFactory factory=new ActionFactiryImpl();
+        Action action=factory.createAction(req.getRequestURI());
+        action.executeGet(getServletContext(),req, resp);
+
+
 
 //        List<Book> res = new ArrayList();
-//        req.getSession().setAttribute("result", res);
-        getServletContext().getRequestDispatcher("/jspfiles/books.jsp").forward(req, resp);
+//        req.getSession().setAttribute("pagetype", "books");
+//        getServletContext().getRequestDispatcher("/jspfiles/books.jsp").forward(req, resp);
+//        ClassActivator classActivator=new ClassActivator(getServletContext(),req, resp);
+//        classActivator.execut();
     }
 
     @Override
@@ -37,7 +48,7 @@ public class ServletBooks extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+        req.getSession().setAttribute("pagetype", "books");
         req.getSession().setAttribute("result", resultList);
         getServletContext().getRequestDispatcher("/jspfiles/books.jsp").forward(req, resp);
     }
