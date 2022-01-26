@@ -3,19 +3,26 @@ package kazantsev.entity;
 public class Book {
     private int id;
     private String name;
-    //todo tittle
     private String author;
-    //todo name
     private int year;
-    //todo сделать булеан
     private int number;
+    private String description;
 
-    public Book(int id,String name, String author, int year,int number){
-        this.id=id;
+    public Book(String name, String author, int year,int number, String description){
+
         this.name=name;
         this.author=author;
         this.year=year;
         this.number=number;
+        this.description=description;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public int getId() {

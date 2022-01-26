@@ -21,13 +21,7 @@ public class ActionDeleteBook implements Action {
             int id = Integer.parseInt(bookId);
             BooksDaoImpl booksDao = new BooksDaoImpl();
             Book book = null;
-            try {
-                book = booksDao.getById(id);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
-
+            book = booksDao.getById(id);
             req.getSession().setAttribute("book", book);
             req.getSession().setAttribute("pagetype", "deletebookview");
             servletContext.getRequestDispatcher("/jspfiles/admin.jsp").forward(req, resp);
@@ -37,9 +31,9 @@ public class ActionDeleteBook implements Action {
     @Override
     public void executePost(ServletContext servletContext, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException {
 
-        Service service=new ServiceImpl();
-        int id=  Integer.parseInt(req.getParameter("idbook"));
-         String info=service.deleteBook(id);
+        Service service = new ServiceImpl();
+        int id = Integer.parseInt(req.getParameter("idbook"));
+        String info = service.deleteBook(id);
         req.getSession().setAttribute("info", info);
         req.getSession().setAttribute("pagetype", "deletebook");
         servletContext.getRequestDispatcher("/jspfiles/admin.jsp").forward(req, resp);

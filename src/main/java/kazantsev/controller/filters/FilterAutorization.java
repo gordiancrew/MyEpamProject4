@@ -8,7 +8,6 @@ import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.sql.SQLException;
 
 @WebFilter("/book")
 public class FilterAutorization implements Filter {
@@ -35,15 +34,18 @@ public class FilterAutorization implements Filter {
         UsersDaoImpl usersDao = new UsersDaoImpl();
         User userLogin=(User)req.getSession().getAttribute("user");
         User user=null;
-        try {
-             user= usersDao.getUserByLogin(login);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        if (userLogin != null) {
+        user= usersDao.getUserByLogin(login);
+        if (userLogin != null&&userLogin.isConfirm()) {
             filterChain.doFilter(request, response);
-        } else if ( user != null&& BCrypt.checkpw(password,user.getPassword())) {
+        } else if ( user != null&& BCrypt.checkpw(password,user.getPassword())&&user.isConfirm()) {
             req.getSession().setAttribute("user", user);
+
+            ServletContext ctx = filterConfig.getServletContext();
+            RequestDispatcher dispatcher = ctx.getRequestDispatcher("/jspfiles/index.jsp");
+            dispatcher.forward(request, response);
+            filterChain.doFilter(request, response);
+        } else if ( user != null&& BCrypt.checkpw(password,user.getPassword())&&!user.isConfirm()) {
+            req.setAttribute("confirm", "no");
             ServletContext ctx = filterConfig.getServletContext();
             RequestDispatcher dispatcher = ctx.getRequestDispatcher("/jspfiles/index.jsp");
             dispatcher.forward(request, response);

@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class ActionBookReturn  implements Action {
     @Override
@@ -46,6 +48,13 @@ public class ActionBookReturn  implements Action {
 
     @Override
     public void executePost(ServletContext servletContext, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Object languageObject=req.getSession().getAttribute("language");
+        String language="ru";
+        if(languageObject!=null){
+            language=languageObject.toString();
+        }
+        ResourceBundle bundle=ResourceBundle.getBundle("messages",new Locale(language));
+
         String idOperationString = req.getParameter("idoperation");
         String result = " no";
         Service service = new ServiceImpl();
@@ -57,7 +66,7 @@ public class ActionBookReturn  implements Action {
         }
         req.getSession().setAttribute("pagetype", "book");
         req.getSession().setAttribute("booktype", "result");
-        req.getSession().setAttribute("resultbook", result);
+        req.getSession().setAttribute("resultbook", bundle.getString(result));
         servletContext.getRequestDispatcher("/jspfiles/books.jsp").forward(req, resp);
     }
 }

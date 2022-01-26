@@ -9,6 +9,7 @@ public class User {
     private String address;
     private String login;
     private String password;
+    private boolean confirm;
 
     public User( String name, String sureName, UserRole role, int phone,String address, String login, String password) {
 
@@ -25,6 +26,10 @@ public class User {
         return address;
     }
 
+    public void setConfirm(boolean confirm) {
+        this.confirm = confirm;
+    }
+
     public String getLogin() {
         return login;
     }
@@ -35,6 +40,10 @@ public class User {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public boolean isConfirm() {
+        return confirm;
     }
 
     public int getId() {
@@ -53,6 +62,7 @@ public class User {
         return phone;
     }
 
+
     public UserRole getRole() {
         return role;
     }
@@ -67,6 +77,7 @@ public class User {
                 ", role=" + role +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
+                ", confirm='" + confirm + '\'' +
                 '}'+'\n';
     }
 }

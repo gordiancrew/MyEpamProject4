@@ -60,6 +60,7 @@ public class ActionRegistration implements Action {
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
+                    req.setAttribute("confirm", "no");
                     req.getSession().setAttribute("user", user);
                     servletContext.getRequestDispatcher("/jspfiles/index.jsp").forward(req, resp);
                 }

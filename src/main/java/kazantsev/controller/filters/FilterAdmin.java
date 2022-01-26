@@ -28,7 +28,7 @@ public class FilterAdmin implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
 
         HttpServletRequest req = (HttpServletRequest) request;
-        UsersDaoImpl usersDao = new UsersDaoImpl();
+//        UsersDaoImpl usersDao = new UsersDaoImpl();
         User user = null;
         user = (User) req.getSession().getAttribute("user");
         if (user.getRole() == UserRole.LIBRARIAN) {

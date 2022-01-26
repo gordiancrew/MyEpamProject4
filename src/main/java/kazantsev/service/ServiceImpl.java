@@ -19,6 +19,7 @@ public class ServiceImpl implements Service {
     UsersDao usersDao = new UsersDaoImpl();
     OperationsDao operationsDao = new OperationsDaoImpl();
 
+
     @Override
     public List<Book> searchBook(String name, String author) throws SQLException {
 
@@ -35,14 +36,27 @@ public class ServiceImpl implements Service {
         }
     }
 
+    @Override
+    public List<User> searchReader(String name, String sureName) throws SQLException {
+        if (name == "" && sureName == "") {
+            return usersDao.getAll();
+        } else if (sureName == "") {
+            return usersDao.getUserByName(name);
+        } else if (name == "") {
+            return usersDao.getUserBySureName(sureName);
+        } else {
+            return usersDao.getUserByNameAndSureName(name, sureName);
+        }
+    }
+
     public String getBook(int idBook, int idAuthor) throws SQLException {
         Book book = booksDao.getById(idBook);
         if (book.getNumber() == 1) {
             operationsDao.createOperation(idBook, idAuthor);
             booksDao.setNumber(0, idBook);
-            return "Книга успешно взята!";
+            return "get.successfully";
         }
-        return "Невозможно взять книгу!";
+        return "get.unsuccessfully";
     }
 
     @Override
@@ -58,9 +72,9 @@ public class ServiceImpl implements Service {
         if (operation.getDateReturn() == null) {
             operationsDao.setDateReturn(Date.valueOf(LocalDate.now()), idOperation);
             booksDao.setNumber(1, operation.getBook().getId());
-            return "Книга успешно возвращена!";
+            return "return.successfully";
         }
-        return "Не удалось вернуть книгу!";
+        return "return.unsuccessfully";
     }
 
     @Override
@@ -84,6 +98,46 @@ public class ServiceImpl implements Service {
         }
         return "no";
     }
+
+    @Override
+    public String addBook(String tittle, String author, int year, int number, String description) throws SQLException {
+        booksDao.save(new Book(tittle,author, year, number, description));
+        if(booksDao.getBooksByNameAndAuthor(tittle,author)!=null){
+            return "ok";
+        }
+      return "no";
+    }
+
+    @Override
+    public List<User> getNonConfirmUsers() throws SQLException {
+
+        return  usersDao.getUsersByConfirm(Boolean.FALSE);
+
+    }
+
+    @Override
+    public List<User> getConfirmUsers() throws SQLException {
+        return  usersDao.getUsersByConfirm(Boolean.TRUE);
+    }
+
+    @Override
+    public String deleteUser(int idUser) throws SQLException {
+        if(usersDao.getById(idUser)!=null) {
+            usersDao.deleteById(idUser);
+            return "ok";
+        }
+        return "no";
+    }
+
+    @Override
+    public User getUserById(int id) throws SQLException {
+      return  usersDao.getById(id);
+    }
+
+    @Override
+    public String confirmUser(int id) throws SQLException {
+        usersDao.setConfirm(id,Boolean.TRUE);
+        return "ok";}
 
 
 }

@@ -13,21 +13,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class ActionBook implements Action {
     @Override
     public void executeGet(ServletContext servletContext, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String bookId = req.getParameter("id");
-        System.out.println(req.getRequestURI());
         if (bookId != null) {
             int id = Integer.parseInt(bookId);
             BooksDaoImpl booksDao = new BooksDaoImpl();
             Book book = null;
-            try {
-                book = booksDao.getById(id);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            book = booksDao.getById(id);
             req.getSession().setAttribute("booktype", "view");
             req.getSession().setAttribute("book", book);
             req.getSession().setAttribute("pagetype", "book");
@@ -41,8 +38,13 @@ public class ActionBook implements Action {
         String result = " no";
         Service service = new ServiceImpl();
         User user = (User) req.getSession().getAttribute("user");
+        Object languageObject=req.getSession().getAttribute("language");
+        String language="ru";
+        if(languageObject!=null){
+            language=languageObject.toString();
+        }
+        ResourceBundle bundle=ResourceBundle.getBundle("messages",new Locale(language));
         if (user != null && idBookString != null) {
-
             int idBook = Integer.parseInt(idBookString);
             int idReader = user.getId();
             try {
@@ -52,7 +54,7 @@ public class ActionBook implements Action {
             }
             req.getSession().setAttribute("booktype", "result");
             req.getSession().setAttribute("pagetype", "book");
-            req.getSession().setAttribute("resultbook", result);
+            req.getSession().setAttribute("resultbook", bundle.getString(result));
             servletContext.getRequestDispatcher("/jspfiles/books.jsp").forward(req, resp);
         }
     }

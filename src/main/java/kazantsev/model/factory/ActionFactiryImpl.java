@@ -13,6 +13,13 @@ public class ActionFactiryImpl implements ActionFactory {
     final static String BOOKRETURN = "/library/bookreturn";
     final static String ADMIN="/library/admin";
     final static String DELETEBOOK="/library/deletebook";
+    final static String ADDBOOK="/library/addbook";
+    final static String RULES="/library/rules";
+    final static String NONCONFIRMREADERS="/library/nonconfirmreaders";
+    final static String DELETEUSER="/library/deleteuser";
+    final static String USER="/library/user";
+    final static String CONFIRMREADER="/library/confirmreader";
+    final static String READERS="/library/readers";
 
     @Override
     public Action createAction(String typeAction) {
@@ -20,6 +27,20 @@ public class ActionFactiryImpl implements ActionFactory {
             return new ActionBooks();
         } else if (typeAction.equals(LANGUAGE)) {
             return new ActionLanguage();
+        } else if (typeAction.equals(CONFIRMREADER)) {
+            return new ActionConfirmReader();
+        } else if (typeAction.equals(USER)) {
+            return new ActionUser();
+        } else if (typeAction.equals(READERS)) {
+            return new ActionReaders();
+        } else if (typeAction.equals(DELETEUSER)) {
+            return new ActionDeleteUser();
+        } else if (typeAction.equals(NONCONFIRMREADERS)) {
+            return new ActionNonConfirmReaders();
+        } else if (typeAction.equals(RULES)) {
+            return new ActionRules();
+        } else if (typeAction.equals(ADDBOOK)) {
+            return new ActionAddBook();
         } else if (typeAction.equals(ADMIN)) {
             return new ActionAdmin();
         } else if (typeAction.equals(DELETEBOOK)) {

@@ -8,6 +8,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 public interface Action {
-    void executeGet(ServletContext servletContext, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
+    void executeGet(ServletContext servletContext, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException;
     void executePost(ServletContext servletContext,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException;
 }
