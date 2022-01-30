@@ -8,27 +8,35 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface Service {
-    List<Book> searchBook(String name, String author) throws SQLException;
-    List<User> searchReader(String name, String sureName) throws SQLException;
+    List<Book> searchBook(String name, String author);
 
-    String getBook(int idBook, int idAuthor) throws SQLException;
+    String getBook(int idBook, int idAuthor);
 
-    List<Operation> getActiveOperations(int idRiader) throws SQLException;
+    Book getBookById(int idBook);
 
-    String returnBook(int idOperation) throws SQLException;
+    String deleteBook(int idBook);
 
-    User addUser(String name, String sureName, int phone, String address, String login, String password) throws SQLException;
+    String addBook(String tittle, String author, int year, int number, String description);
 
-    User getUserByLogin(String login) throws SQLException;
+    String returnBook(int idOperation);
 
-    String deleteBook(int idBook) throws SQLException;
+    User addUser(String name, String sureName, int phone, String address, String login, String password);
 
-    String addBook(String tittle, String author, int year, int number, String description) throws SQLException;
+    List<User> getNonConfirmUsers();
 
-    List<User> getNonConfirmUsers() throws SQLException;
-    List<User> getConfirmUsers() throws SQLException;
+    List<User> getConfirmUsers();
 
-    String deleteUser(int idUser) throws SQLException;
-    User getUserById(int id) throws SQLException;
-    String confirmUser(int id) throws SQLException;
+    User getUserByLogin(String login);
+
+    List<User> searchReader(String name, String sureName);
+
+    String deleteUser(int idUser);
+
+    User getUserById(int id);
+
+    String confirmUser(int id);
+
+    List<Operation> getActiveOperations(int idRiader);
+
+    Operation getOperationById(int id);
 }

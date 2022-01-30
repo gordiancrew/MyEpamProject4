@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <head>
-    <title>BOOKS</title>
+    <title>Library</title>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     <link href="resources/styles/style.css" rel="stylesheet">
     <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -25,7 +25,7 @@
         </li>
         <c:if test="${user==NULL}">
             <li>
-                <a href="http://localhost:8080/library/book">
+                <a href="http://localhost:8080/library/authorization">
                     <fmt:message key="label.authorization" />
                 </a>
             </li>
@@ -97,11 +97,11 @@
          <div class="frameform">
                     <form method="post" action="http://localhost:8080/library/addbook">
                         <div class="container">
-                            <input type="text" placeholder=<fmt:message key="label.tittle" /> name="tittle" required>
-                            <input type="text" placeholder=<fmt:message key="label.author" /> name="author" required>
-                            <input type="text" placeholder=<fmt:message key="label.year" /> name="year" required>
-                            <input type="text" placeholder=<fmt:message key="label.number" /> name="number" required>
-                            <textarea type="text" placeholder=<fmt:message key="label.description" /> name="description" required></textarea>
+                            <input type="text" maxlength="20"  placeholder=<fmt:message key="label.tittle" /> name="tittle" required oninvalid="this.setCustomValidity('enter tittle!')"  oninput="setCustomValidity('')">
+                            <input type="text" maxlength="20" pattern="[а-яА-Яa-zA-Z]{2,10}[ -]{0,1}[а-яА-Яa-zA-Z]{0,10}" placeholder=<fmt:message key="label.author" /> name="author" required oninvalid="this.setCustomValidity('incorrect enter!')"  oninput="setCustomValidity('')">
+                            <input type="text"maxlength="4" pattern="[0-9]{4}" placeholder=<fmt:message key="label.year" /> name="year" required oninvalid="this.setCustomValidity('incorrect enter!')"  oninput="setCustomValidity('')">
+                            <input type="text"maxlength="1" pattern="[0-9]{1}" placeholder=<fmt:message key="label.number" /> name="number" required oninvalid="this.setCustomValidity('incorrect enter!')"  oninput="setCustomValidity('')">
+                            <textarea type="text" maxlength="1400" placeholder=<fmt:message key="label.description" /> name="description" required oninvalid="this.setCustomValidity('incorrect enter!')"  oninput="setCustomValidity('')"></textarea>
                             <button type="submit" id="log"><fmt:message key="addbook" /></button>
                         </div>
                     </form>
@@ -130,7 +130,7 @@
                         </th>
                      </form>
                   </c:if>
-
+                  <c:if test="${reader.role!='LIBRARIAN'}">
                      <form method="post"   action="http://localhost:8080/library/deleteuser?id=${reader.id}">
                         <th>
                            <div id="del">
@@ -138,7 +138,7 @@
                            </div>
                         </th>
                      </form>
-
+                  </c:if>
 
                   </tr>
                </table>

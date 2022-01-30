@@ -1,6 +1,8 @@
 package kazantsev.model.actions.actionsimpl;
 
 import kazantsev.model.actions.Action;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -10,14 +12,25 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 public class ActionRules implements Action {
+
+    private static final Logger log = Logger.getLogger(ActionRules.class);
+
     @Override
-    public void executeGet(ServletContext servletContext, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void executeGet(ServletContext servletContext, HttpServletRequest request, HttpServletResponse response)  {
         request.getSession().setAttribute("pagetype", "rules");
-        servletContext.getRequestDispatcher("/jspfiles/books.jsp").forward(request, response);
+        try {
+            servletContext.getRequestDispatcher("/jspfiles/books.jsp").forward(request, response);
+        } catch (ServletException e) {
+            log.log(Level.ERROR, "exception:", e);
+            e.printStackTrace();
+        } catch (IOException e) {
+            log.log(Level.ERROR, "exception:", e);
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void executePost(ServletContext servletContext, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+    public void executePost(ServletContext servletContext, HttpServletRequest request, HttpServletResponse response)  {
 
     }
 }

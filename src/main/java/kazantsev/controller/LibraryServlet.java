@@ -17,7 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @WebServlet(urlPatterns = {"/books", "/book", "/language", "/logout", "/registration", "/booksbox", "/bookreturn",
-        "/admin", "/deletebook", "/addbook", "/rules", "/nonconfirmreaders", "/deleteuser", "/user",
+         "/deletebook", "/addbook", "/rules", "/nonconfirmreaders", "/deleteuser", "/user",
         "/confirmreader", "/readers"})
 public class LibraryServlet extends HttpServlet {
 

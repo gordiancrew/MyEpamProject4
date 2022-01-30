@@ -14,11 +14,10 @@ public class Operation {
         this.dateReturn = dateReturn;
     }
 
-    public Operation( Book book, User reader, LocalDate dateGet, LocalDate dateReturn) {
+    public Operation(Book book, User reader, LocalDate dateGet, LocalDate dateReturn) {
 
         this.book = book;
         this.reader = reader;
-
         this.dateGet = dateGet;
         this.dateReturn = dateReturn;
     }
@@ -34,7 +33,6 @@ public class Operation {
     public User getReader() {
         return reader;
     }
-
 
     public LocalDate getDateGet() {
         return dateGet;

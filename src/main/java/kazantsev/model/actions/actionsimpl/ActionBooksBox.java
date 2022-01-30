@@ -5,6 +5,8 @@ import kazantsev.entity.User;
 import kazantsev.model.actions.Action;
 import kazantsev.service.Service;
 import kazantsev.service.ServiceImpl;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -16,19 +18,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ActionBooksBox implements Action {
+    private static final Logger log = Logger.getLogger(ActionBooksBox.class);
     @Override
-    public void executeGet(ServletContext servletContext, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void executeGet(ServletContext servletContext, HttpServletRequest req, HttpServletResponse resp)  {
         List<Operation> result = new ArrayList();
         Service service=new ServiceImpl();
         User user=(User)req.getSession().getAttribute("user");
-        try {
-            result=service.getActiveOperations(user.getId());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        result=service.getActiveOperations(user.getId());
         req.getSession().setAttribute("pagetype", "booksbox");
         req.getSession().setAttribute("result", result);
-        servletContext.getRequestDispatcher("/jspfiles/books.jsp").forward(req, resp);
+        try {
+            servletContext.getRequestDispatcher("/jspfiles/books.jsp").forward(req, resp);
+        } catch (ServletException e) {
+            log.log(Level.ERROR, "exception:", e);
+            e.printStackTrace();
+        } catch (IOException e) {
+            log.log(Level.ERROR, "exception:", e);
+            e.printStackTrace();
+        }
     }
 
     @Override

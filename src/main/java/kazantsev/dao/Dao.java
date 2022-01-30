@@ -4,12 +4,12 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-public interface Dao<T,Id> {
-    T getById(Id Id) throws SQLException;
+public interface Dao<T, Id> {
+    T getById(Id Id);
 
-    List<T> getAll() throws SQLException;
+    List<T> getAll();
 
-    String save(T t) throws SQLException;
+    String save(T t);
 
-    void delete(T t) throws SQLException;
+    void delete(T t);
 }

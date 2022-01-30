@@ -13,17 +13,13 @@ import java.util.*;
 public class BooksDaoImpl implements BooksDao {
 
     private static final Logger log = Logger.getLogger(BooksDaoImpl.class);
-    ConnectionSourse sourse = ConnectionSourse.instance();
-    Connection conn;
-
-    {
-        try {
-            conn = sourse.createConnection();
-        } catch (SQLException e) {
-            log.log(Level.ERROR, "exception:", e);
-            e.printStackTrace();
-        }
+    //ConnectionSourse sourse = ConnectionSourse.instance();
+   // Connection conn = sourse.createConnection();
+    Connection conn=null;
+    public  BooksDaoImpl(Connection conn){
+       this.conn=conn;
     }
+
 
     @Override
     public List<Book> getBooksByName(String name) {

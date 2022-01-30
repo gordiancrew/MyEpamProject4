@@ -19,27 +19,27 @@ import java.util.List;
 
 public class OperationsDaoImpl implements OperationsDao {
     private static final Logger log = Logger.getLogger(OperationsDaoImpl.class);
-    ConnectionSourse sourse = ConnectionSourse.instance();
-    Connection conn;
+   Connection conn=null;
+   public OperationsDaoImpl(Connection conn){
+       this.conn=conn;
+   }
 
-    {
+
+    @Override
+    public Operation getById(Integer Id) {
+        String sql = "select * from operations where id=?";
+        PreparedStatement statement = null;
+        Operation result = null;
         try {
-            conn = sourse.createConnection();
+            statement = conn.prepareStatement(sql);
+            statement.setInt(1, Id);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next())
+                result = operationMapping(rs);
         } catch (SQLException e) {
             log.log(Level.ERROR, "exception:", e);
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public Operation getById(Integer Id) throws SQLException {
-        String sql = "select * from operations where id=?";
-        PreparedStatement statement = conn.prepareStatement(sql);
-        statement.setInt(1, Id);
-        ResultSet rs = statement.executeQuery();
-        Operation result = null;
-        if (rs.next())
-            result = operationMapping(rs);
         return result;
     }
 
@@ -88,8 +88,7 @@ public class OperationsDaoImpl implements OperationsDao {
             log.log(Level.ERROR, "exception:", e);
             e.printStackTrace();
         }
-        return "Книга " + operation.getBook().getAuthor() + " " + operation.getBook().getName() + "  взята" +
-                " " + operation.getReader().getSureName();
+        return "ok";
     }
 
     @Override
@@ -116,12 +115,7 @@ public class OperationsDaoImpl implements OperationsDao {
     @Override
     public String deleteOperationById(Integer id) {
         Operation operationDel = null;
-        try {
-            operationDel = getById(id);
-        } catch (SQLException e) {
-            log.log(Level.ERROR, "exception:", e);
-            e.printStackTrace();
-        }
+        operationDel = getById(id);
         if (operationDel != null) {
             String userString = "id" + operationDel.getId();
             String sql = "delete from operations where id=?";
@@ -135,9 +129,9 @@ public class OperationsDaoImpl implements OperationsDao {
                 log.log(Level.ERROR, "exception:", e);
                 e.printStackTrace();
             }
-            return "операция " + operationDel + " удалена";
+            return "ok";
         } else {
-            return "Нет такой операции";
+            return "no";
         }
     }
 
@@ -177,15 +171,13 @@ public class OperationsDaoImpl implements OperationsDao {
         return operationsList;
     }
 
-
     public Operation operationMapping(ResultSet rs) {
-        BooksDaoImpl booksDao = new BooksDaoImpl();
-        UsersDaoImpl usersDao = new UsersDaoImpl();
+        BooksDaoImpl booksDao = new BooksDaoImpl(conn);
+        UsersDaoImpl usersDao = new UsersDaoImpl(conn);
         Operation operation = null;
         int id = 0;
         try {
             id = rs.getInt("id");
-
             int idBook = rs.getInt("id_book");
             Book book = booksDao.getById(idBook);
             int idReader = rs.getInt("id_reader");
@@ -206,6 +198,4 @@ public class OperationsDaoImpl implements OperationsDao {
         }
         return operation;
     }
-
-
 }

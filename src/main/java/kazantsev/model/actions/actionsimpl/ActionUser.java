@@ -7,6 +7,8 @@ import kazantsev.entity.User;
 import kazantsev.model.actions.Action;
 import kazantsev.service.Service;
 import kazantsev.service.ServiceImpl;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -18,8 +20,10 @@ import java.util.List;
 
 public class ActionUser implements Action {
 
+    private static final Logger log = Logger.getLogger(ActionUser.class);
+
     @Override
-    public void executeGet(ServletContext servletContext, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException {
+    public void executeGet(ServletContext servletContext, HttpServletRequest req, HttpServletResponse resp)  {
         String userId = req.getParameter("id");
         if (userId != null) {
             int id = Integer.parseInt(userId);
@@ -31,7 +35,15 @@ public class ActionUser implements Action {
             req.getSession().setAttribute("reader", user);
             req.getSession().setAttribute("listusersbook", listUsersBook);
             req.getSession().setAttribute("pagetype", "user");
-            servletContext.getRequestDispatcher("/jspfiles/admin.jsp").forward(req, resp);
+            try {
+                servletContext.getRequestDispatcher("/jspfiles/admin.jsp").forward(req, resp);
+            } catch (ServletException e) {
+                log.log(Level.ERROR, "exception:", e);
+                e.printStackTrace();
+            } catch (IOException e) {
+                log.log(Level.ERROR, "exception:", e);
+                e.printStackTrace();
+            }
         }
     }
 

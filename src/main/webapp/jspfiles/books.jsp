@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <head>
-    <title>BOOKS</title>
+    <title>Library</title>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <link href="resources/styles/style.css" rel="stylesheet">
         <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -26,7 +26,7 @@
           </li>
           <c:if test="${user==NULL}">
               <li>
-                  <a href="http://localhost:8080/library/book">
+                  <a href="http://localhost:8080/library/authorization">
                       <fmt:message key="label.authorization" />
                   </a>
               </li>
@@ -152,8 +152,8 @@
         <div class="frame">
             <form method="post" action="">
                 <!--div class="container"-->
-                <input type="text" placeholder=<fmt:message key="label.login" /> name="login" required>
-                <input type="password" placeholder=<fmt:message key="label.password" /> name="password" required>
+                <input type="text" placeholder=<fmt:message key="label.login" /> name="login" required oninvalid="this.setCustomValidity('enter login!')"  oninput="setCustomValidity('')">
+                <input type="password" placeholder=<fmt:message key="label.password" /> name="password" required oninvalid="this.setCustomValidity('enter password!')"  oninput="setCustomValidity('')">
                 <button type="submit" id="log"><fmt:message key="label.signin" /></button>
                 <div id="reg">
                     <a href="http://localhost:8080/library/registration">
@@ -233,12 +233,12 @@
         <div class="frameform">
             <form method="post" action="http://localhost:8080/library/registration">
                 <div class="container">
-                    <input type="text" placeholder=<fmt:message key="label.name" /> name="name" required>
-                    <input type="text" placeholder=<fmt:message key="label.surename" /> name="surename" required>
-                    <input type="tel" placeholder=<fmt:message key="label.phone" /> name="phone" required>
-                    <textarea type="text" placeholder=<fmt:message key="address" /> name="address" required></textarea>
-                    <input type="text" placeholder=<fmt:message key="label.login" /> name="login" required>
-                    <input type="password" placeholder=<fmt:message key="label.password" /> name="password" required>
+                    <input type="text"  maxlength="20" placeholder=<fmt:message key="label.name" /> name="name" pattern="[а-яА-Яa-zA-Z]{2,10}[ -]{0,1}[а-яА-Яa-zA-Z]{0,10}" required oninvalid="this.setCustomValidity('incorrect enter!')"  oninput="setCustomValidity('')">
+                    <input type="text" maxlength="20" placeholder=<fmt:message key="label.surename" /> name="surename" pattern="[а-яА-Яa-zA-Z]{2,10}[ -]{0,1}[а-яА-Яa-zA-Z]{0,10}" required oninvalid="this.setCustomValidity('incorrect enter! Enter 2-20 letters ')"  oninput="setCustomValidity('')">
+                    <input type="tel" maxlength="9" placeholder=<fmt:message key="label.phone" /> name="phone" pattern="[0-9]{9}" required oninvalid="this.setCustomValidity('incorrect phone! format: +375 __ ___ __ __')"  oninput="setCustomValidity('')">
+                    <textarea type="text" maxlength="40" placeholder=<fmt:message key="address" /> name="address" pattern="[а-яА-Яa-zA-Z -0-9]{4,40}" required oninvalid="this.setCustomValidity('incorrect enter! Enter 4-40 symbals')"  oninput="setCustomValidity('')"></textarea>
+                    <input type="text" maxlength="20" placeholder=<fmt:message key="label.login" /> name="login" pattern="[а-яА-Яa-zA-Z -0-9]{2,10}" required oninvalid="this.setCustomValidity('incorrect enter! Enter 2-10 symbals ')"  oninput="setCustomValidity('')">
+                    <input type="password" maxlength="20"  placeholder=<fmt:message key="label.password" /> name="password" required oninvalid="this.setCustomValidity('enter password!')"  oninput="setCustomValidity('')">
                     <button type="submit" id="log"><fmt:message key="label.registration" /></button>
                 </div>
             </form>

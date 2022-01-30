@@ -17,18 +17,11 @@ import java.util.List;
 
 public class UsersDaoImpl implements UsersDao {
     private static final Logger log = Logger.getLogger(UsersDaoImpl.class);
-    ConnectionSourse sourse = ConnectionSourse.instance();
-    Connection conn;
+   Connection conn=null;
+   public UsersDaoImpl(Connection conn){
+     this.conn=conn;
 
-    {
-        try {
-            conn = sourse.createConnection();
-        } catch (SQLException e) {
-            log.log(Level.ERROR, "exception:", e);
-            e.printStackTrace();
-        }
-    }
-
+   }
     @Override
     public User getById(Integer Id) {
         String sql = "select * from users where id=?";

@@ -5,7 +5,6 @@ kazantsev\model\actions\actionsimpl\ActionRegistration.class
 kazantsev\database\ConnectionSourse.class
 kazantsev\controller\filters\FilterAutorization.class
 kazantsev\dao\impl\UsersDaoImpl.class
-kazantsev\model\actions\actionsimpl\ActionAdmin.class
 kazantsev\dao\impl\BooksDaoImpl.class
 kazantsev\model\actions\actionsimpl\ActionUser.class
 kazantsev\controller\LibraryServlet.class
@@ -34,6 +33,5 @@ kazantsev\model\actions\actionsimpl\ActionBook.class
 kazantsev\model\actions\Action.class
 kazantsev\model\actions\actionsimpl\ActionHome.class
 kazantsev\dao\impl\OperationsDaoImpl.class
-kazantsev\Test.class
 kazantsev\model\actions\actionsimpl\ActionNonConfirmReaders.class
 kazantsev\model\factory\ActionFactory.class

@@ -8,9 +8,12 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 
-public interface OperationsDao extends  Dao<Operation,Integer>{
-    String setDateReturn(Date dateReturn,int id) throws SQLException;
-    String deleteOperationById(Integer id) throws SQLException;
-    String createOperation(Integer id_book,Integer id_reader) throws SQLException;
-    List<Operation> getOperationByIdReaderWhereReturnDateNull(int idReader) throws SQLException;
+public interface OperationsDao extends Dao<Operation, Integer> {
+    String setDateReturn(Date dateReturn, int id);
+
+    String deleteOperationById(Integer id);
+
+    String createOperation(Integer id_book, Integer id_reader);
+
+    List<Operation> getOperationByIdReaderWhereReturnDateNull(int idReader);
 }

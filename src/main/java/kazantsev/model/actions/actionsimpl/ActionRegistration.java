@@ -4,6 +4,8 @@ import kazantsev.entity.User;
 import kazantsev.model.actions.Action;
 import kazantsev.service.Service;
 import kazantsev.service.ServiceImpl;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import javax.servlet.ServletContext;
@@ -16,15 +18,26 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class ActionRegistration implements Action {
+
+    private static final Logger log = Logger.getLogger(ActionRegistration.class);
+
     @Override
-    public void executeGet(ServletContext servletContext, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void executeGet(ServletContext servletContext, HttpServletRequest request, HttpServletResponse response){
 
         request.getSession().setAttribute("pagetype", "registration");
-        servletContext.getRequestDispatcher("/jspfiles/books.jsp").forward(request, response);
+        try {
+            servletContext.getRequestDispatcher("/jspfiles/books.jsp").forward(request, response);
+        } catch (ServletException e) {
+            log.log(Level.ERROR, "exception:", e);
+            e.printStackTrace();
+        } catch (IOException e) {
+            log.log(Level.ERROR, "exception:", e);
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void executePost(ServletContext servletContext, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void executePost(ServletContext servletContext, HttpServletRequest req, HttpServletResponse resp) {
         String name = req.getParameter("name");
         String sureName = req.getParameter("surename");
         String phoneString = req.getParameter("phone");
@@ -45,27 +58,41 @@ public class ActionRegistration implements Action {
 
         if (!phoneString.matches("[0-9]+")) {
             req.getSession().setAttribute("error", bundle.getString("registration.number"));
-            servletContext.getRequestDispatcher("/jspfiles/books.jsp").forward(req, resp);
-        } else {
             try {
-                if (service.getUserByLogin(login) != null) {
-                    req.getSession().setAttribute("error",  bundle.getString("registration.loginreserved"));
-                    servletContext.getRequestDispatcher("/jspfiles/books.jsp").forward(req, resp);
-                } else {
-                    int phone = Integer.parseInt(phoneString);
-
-                    // req.getSession().setAttribute("resultbook", result);
-                    try {
-                        user = service.addUser(name, sureName, phone,address, login, password);
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                    req.setAttribute("confirm", "no");
-                    req.getSession().setAttribute("user", user);
-                    servletContext.getRequestDispatcher("/jspfiles/index.jsp").forward(req, resp);
-                }
-            } catch (SQLException e) {
+                servletContext.getRequestDispatcher("/jspfiles/books.jsp").forward(req, resp);
+            } catch (ServletException e) {
+                log.log(Level.ERROR, "exception:", e);
                 e.printStackTrace();
+            } catch (IOException e) {
+                log.log(Level.ERROR, "exception:", e);
+                e.printStackTrace();
+            }
+        } else {
+            if (service.getUserByLogin(login) != null) {
+                req.getSession().setAttribute("error",  bundle.getString("registration.loginreserved"));
+                try {
+                    servletContext.getRequestDispatcher("/jspfiles/books.jsp").forward(req, resp);
+                } catch (ServletException e) {
+                    log.log(Level.ERROR, "exception:", e);
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    log.log(Level.ERROR, "exception:", e);
+                    e.printStackTrace();
+                }
+            } else {
+                int phone = Integer.parseInt(phoneString);
+                user = service.addUser(name, sureName, phone,address, login, password);
+                req.setAttribute("confirm", "no");
+                req.getSession().setAttribute("user", user);
+                try {
+                    servletContext.getRequestDispatcher("/jspfiles/index.jsp").forward(req, resp);
+                } catch (ServletException e) {
+                    log.log(Level.ERROR, "exception:", e);
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    log.log(Level.ERROR, "exception:", e);
+                    e.printStackTrace();
+                }
             }
         }
     }

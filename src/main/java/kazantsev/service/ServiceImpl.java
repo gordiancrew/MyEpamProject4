@@ -4,140 +4,177 @@ import kazantsev.dao.*;
 import kazantsev.dao.impl.BooksDaoImpl;
 import kazantsev.dao.impl.OperationsDaoImpl;
 import kazantsev.dao.impl.UsersDaoImpl;
+import kazantsev.database.ConnectionSourse;
 import kazantsev.entity.Book;
 import kazantsev.entity.Operation;
 import kazantsev.entity.User;
 import kazantsev.entity.UserRole;
+import kazantsev.model.actions.actionsimpl.ActionBook;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 
+import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 
 public class ServiceImpl implements Service {
-    BooksDao booksDao = new BooksDaoImpl();
-    UsersDao usersDao = new UsersDaoImpl();
-    OperationsDao operationsDao = new OperationsDaoImpl();
-
+    private static final Logger log = Logger.getLogger(ServiceImpl.class);
+    ConnectionSourse sourse = ConnectionSourse.instance();
+     Connection conn = sourse.createConnection();
+    BooksDao booksDao = new BooksDaoImpl(conn);
+    UsersDao usersDao = new UsersDaoImpl(conn);
+    OperationsDao operationsDao = new OperationsDaoImpl(conn);
 
     @Override
-    public List<Book> searchBook(String name, String author) throws SQLException {
-
+    public List<Book> searchBook(String name, String author) {
+        List<Book> list = null;
         if (name == "" && author == "") {
-            System.out.println(1);
-            return booksDao.getAll();
+            list = booksDao.getAll();
         } else if (author == "") {
             System.out.println(2);
-            return booksDao.getBooksByName(name);
+            list = booksDao.getBooksByName(name);
         } else if (name == "") {
-            return booksDao.getBooksByAuthor(author);
+            list = booksDao.getBooksByAuthor(author);
         } else {
-            return booksDao.getBooksByNameAndAuthor(name, author);
+            list = booksDao.getBooksByNameAndAuthor(name, author);
         }
+        return list;
     }
 
     @Override
-    public List<User> searchReader(String name, String sureName) throws SQLException {
+    public List<User> searchReader(String name, String sureName) {
+        List<User> list = null;
         if (name == "" && sureName == "") {
-            return usersDao.getAll();
+            list = usersDao.getAll();
         } else if (sureName == "") {
-            return usersDao.getUserByName(name);
+            list = usersDao.getUserByName(name);
         } else if (name == "") {
-            return usersDao.getUserBySureName(sureName);
+            list = usersDao.getUserBySureName(sureName);
         } else {
-            return usersDao.getUserByNameAndSureName(name, sureName);
+            list = usersDao.getUserByNameAndSureName(name, sureName);
         }
+        return list;
     }
 
-    public String getBook(int idBook, int idAuthor) throws SQLException {
-        Book book = booksDao.getById(idBook);
+    public String getBook(int idBook, int idAuthor) {
+        String result = "get.unsuccessfully";
+        Book book = null;
+        book = booksDao.getById(idBook);
         if (book.getNumber() == 1) {
             operationsDao.createOperation(idBook, idAuthor);
             booksDao.setNumber(0, idBook);
-            return "get.successfully";
+            result = "get.successfully";
         }
-        return "get.unsuccessfully";
+        return result;
     }
 
     @Override
-    public List<Operation> getActiveOperations(int idRiader) throws SQLException {
-
-        return operationsDao.getOperationByIdReaderWhereReturnDateNull(idRiader);
-
+    public Book getBookById(int idBook) {
+        Book book = null;
+        book = booksDao.getById(idBook);
+        return book;
     }
 
     @Override
-    public String returnBook(int idOperation) throws SQLException {
-        Operation operation = operationsDao.getById(idOperation);
+    public List<Operation> getActiveOperations(int idRiader) {
+        List<Operation> list = null;
+        list = operationsDao.getOperationByIdReaderWhereReturnDateNull(idRiader);
+        return list;
+    }
+
+    @Override
+    public Operation getOperationById(int id) {
+        Operation operation = null;
+        operation = operationsDao.getById(id);
+        return operation;
+    }
+
+    @Override
+    public String returnBook(int idOperation) {
+        String result = "return.unsuccessfully";
+        Operation operation = null;
+        operation = operationsDao.getById(idOperation);
+
         if (operation.getDateReturn() == null) {
             operationsDao.setDateReturn(Date.valueOf(LocalDate.now()), idOperation);
             booksDao.setNumber(1, operation.getBook().getId());
-            return "return.successfully";
+            result = "return.successfully";
         }
-        return "return.unsuccessfully";
+        return result;
     }
 
     @Override
-    public User addUser(String name, String sureName, int phone, String address, String login, String password) throws SQLException {
-
-            usersDao.save(new User(name, sureName, UserRole.READER, phone, address, login, password));
-            return usersDao.getUserByLogin(login);
-
+    public User addUser(String name, String sureName, int phone, String address, String login, String password) {
+        User user = null;
+        usersDao.save(new User(name, sureName, UserRole.READER, phone, address, login, password));
+        user = usersDao.getUserByLogin(login);
+        return user;
     }
 
     @Override
-    public User getUserByLogin(String login) throws SQLException {
-       return usersDao.getUserByLogin(login);
+    public User getUserByLogin(String login) {
+        User user = null;
+        user = usersDao.getUserByLogin(login);
+        return user;
     }
 
     @Override
-    public String deleteBook(int idBook) throws SQLException {
-        if(booksDao.getById(idBook)!=null) {
+    public String deleteBook(int idBook) {
+        String result = "no";
+        if (booksDao.getById(idBook) != null) {
             booksDao.deleteById(idBook);
-            return "ok";
+            result = "ok";
         }
-        return "no";
+        return result;
     }
 
     @Override
-    public String addBook(String tittle, String author, int year, int number, String description) throws SQLException {
-        booksDao.save(new Book(tittle,author, year, number, description));
-        if(booksDao.getBooksByNameAndAuthor(tittle,author)!=null){
-            return "ok";
+    public String addBook(String tittle, String author, int year, int number, String description) {
+        String result = "no";
+        booksDao.save(new Book(tittle, author, year, number, description));
+        if (booksDao.getBooksByNameAndAuthor(tittle, author) != null) {
+            result = "ok";
         }
-      return "no";
+        return result;
     }
 
     @Override
-    public List<User> getNonConfirmUsers() throws SQLException {
-
-        return  usersDao.getUsersByConfirm(Boolean.FALSE);
-
+    public List<User> getNonConfirmUsers() {
+        List<User> list = null;
+        list = usersDao.getUsersByConfirm(Boolean.FALSE);
+        return list;
     }
 
     @Override
-    public List<User> getConfirmUsers() throws SQLException {
-        return  usersDao.getUsersByConfirm(Boolean.TRUE);
+    public List<User> getConfirmUsers() {
+        List<User> list = null;
+        list = usersDao.getUsersByConfirm(Boolean.TRUE);
+        return list;
     }
 
     @Override
-    public String deleteUser(int idUser) throws SQLException {
-        if(usersDao.getById(idUser)!=null) {
+    public String deleteUser(int idUser) {
+        String result = "no";
+        if (usersDao.getById(idUser) != null) {
             usersDao.deleteById(idUser);
-            return "ok";
+            result = "ok";
         }
-        return "no";
+        return result;
     }
 
     @Override
-    public User getUserById(int id) throws SQLException {
-      return  usersDao.getById(id);
+    public User getUserById(int id) {
+        User user = null;
+        user = usersDao.getById(id);
+        return user;
     }
 
     @Override
-    public String confirmUser(int id) throws SQLException {
-        usersDao.setConfirm(id,Boolean.TRUE);
-        return "ok";}
-
-
+    public String confirmUser(int id) {
+        String result = "no";
+        result = usersDao.setConfirm(id, Boolean.TRUE);
+        return result;
+    }
 }

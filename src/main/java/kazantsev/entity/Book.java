@@ -47,16 +47,7 @@ public class Book {
 
     @Override
     public String toString() {
-//        return "Book{" +
-//                "id=" + id +
-//                ", name='" + name + '\'' +
-//                ", author='" + author + '\'' +
-//                ", year=" + year +
-//                ", number=" + number +
-//                '}';
-
         return  "id"+id+"   \""+name+"\"   автор  "+author+"  год издания "+year+" кол-во экз: "+number;
-
 
     }
 }
